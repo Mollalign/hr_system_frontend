@@ -26,8 +26,6 @@
   --font-sans: system-ui, sans-serif; /* fallback body font */
   --font-title: "kumbh-sans", sans-serif; /* new custom alias */
 
-
-
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -74,11 +72,11 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
   /* Primary: #231942 */
-  --primary: oklch(0.286 0.056 311.69);      /* dark purple */
-  --primary-foreground: oklch(1 0 0); 
+  --primary: oklch(0.205 0 0);      /* dark purple */
+  --primary-foreground: oklch(0.985 0 0); 
   /* Secondary: #0D47A1 */
-  --secondary: oklch(0.401 0.174 262.88);    /* deep blue */
-  --secondary-foreground: oklch(1 0 0); 
+  --secondary: oklch(0.97 0 0);    /* deep blue */
+  --secondary-foreground: oklch(0.205 0 0); 
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
