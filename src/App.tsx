@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { Toaster } from "sonner";
 import { dashboardRoutes } from "./routes/index-route";
+import { SimpleHRLoading } from "./components/layouts/loading";
 
 
 // Protected Route Component
@@ -20,7 +21,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
 // Main App Component
 const AppContent: React.FC = () => {
   return (
-    <Suspense fallback={""}>
+    <Suspense fallback={<SimpleHRLoading />}>
       <Routes>
 
         {/* Protected Dashboard Routes */}
