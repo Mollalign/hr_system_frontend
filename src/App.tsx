@@ -1,8 +1,50 @@
-import React from 'react'
+import React, { Suspense } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { Toaster } from "sonner";
+import { dashboardRoutes } from "./routes/index-route";
 
-const App = () => {
+
+// Protected Route Component
+const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+
+  return <>{children}</>;
+};
+
+// Main App Component
+const AppContent: React.FC = () => {
   return (
-    <div>App</div>
+    <Suspense fallback={""}>
+      <Routes>
+
+        {/* Protected Dashboard Routes */}
+        <Route
+          path="/*"
+          element={
+            <ProtectedRoute>
+              <Routes>{dashboardRoutes}</Routes>
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </Suspense>
+  )
+}
+
+
+// Root App Component
+const App: React.FC = () => {
+  return (
+    <Router>
+      <AppContent />
+      <Toaster />
+    </Router>
   )
 }
 
