@@ -8,7 +8,7 @@ const api = axios.create({
    baseURL: isDevelopment
     ? "http://localhost:8000/api"
     : "https://your-production-domain.com/api",
-    withCredentials: true,
+    // withCredentials: true,
     timeout: 30000,
 });
 
