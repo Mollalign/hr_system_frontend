@@ -13,11 +13,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Edit, Trash2 } from "lucide-react";
+import { Edit, Trash2, Info } from "lucide-react";
 import { useDeductions, useDeleteDeduction } from "@/hooks/useDeduction";
 import { AddDeductionForm } from "../modals/add-deduction";
 import { useState } from "react";
-import { Info } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -31,113 +30,86 @@ import { DeleteDeductionModal } from "../modals/delete-deduction";
 export function DeductionTable() {
   const { data, error, isLoading } = useDeductions();
   const { mutate: deleteDeduction, isPending: isDeleting } = useDeleteDeduction();
+
   const [isAddDeductionModalOpen, setIsAddDeductionModalOpen] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false)
-  const [selectedDeduction, setSelectedDeduction] = useState<DeductionTypeRequest | null>(null)
-  const [showDeleteModal, setShowDeleteModal] = useState(false)
-  const [selectedDeductionToDelete, setSelectedDeductionToDelete] = useState<DeductionType | null>(null)
-  // const {mutate: updateDeduction, isPending: isUpdating} = useUpdateDeduction()
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedDeduction, setSelectedDeduction] = useState<DeductionTypeRequest | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedDeductionToDelete, setSelectedDeductionToDelete] = useState<DeductionType | null>(null);
 
   if (isLoading) return <TableSkeleton />;
-  if (error) return <p>Failed to load deductions</p>;
+  if (error) return <p className="text-red-500 text-sm">Failed to load deductions</p>;
 
   const handleEditDeduction = (deduction: DeductionType, categoryType: string) => {
-    const deductionWithType = {
-      ...deduction,
-      type: categoryType.trim(), // Keep original case as stored in database
-    }
-    setSelectedDeduction(deductionWithType)
-    setShowEditModal(true)
-  }
-
-  const handleUpdateDeduction = (updatedDeduction: DeductionTypeRequest) => {
-    setSelectedDeduction(updatedDeduction)
-    setShowEditModal(false)
-    // The EditDeductionForm will handle the API call
-  }
+    setSelectedDeduction({ ...deduction, type: categoryType.trim() });
+    setShowEditModal(true);
+  };
 
   const handleDeleteDeduction = (deduction: DeductionType, categoryType: string) => {
-    console.log("🗑️ Delete button clicked for deduction:", deduction);
-    console.log("🗑️ Category type:", categoryType);
-    
-    // Create a proper deduction object with the category type
-    const deductionWithType = {
-      ...deduction,
-      type: categoryType.trim(),
-    };
-    
-    setSelectedDeductionToDelete(deductionWithType)
-    setShowDeleteModal(true)
-  }
+    setSelectedDeductionToDelete({ ...deduction, type: categoryType.trim() });
+    setShowDeleteModal(true);
+  };
+
   const handleDeleteConfirmed = (category: string, deductionId: string) => {
-    console.log("🗑️ Confirming delete for:", { category, deductionId });
     deleteDeduction(
       { category, id: deductionId },
       {
         onSuccess: () => {
-          console.log("✅ Delete successful");
           setShowDeleteModal(false);
           setSelectedDeductionToDelete(null);
         },
-        onError: (error) => {
-          console.error("❌ Delete failed:", error);
-        }
       }
     );
   };
 
   return (
-    <div className="space-y-6 mb-10">
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg">Deductions</h2>
+    <div className="space-y-8 mb-10 mt-10">
+      {/* Header */}
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <h2 className="text-xl md:text-2xl font-semibold">💸 Deductions</h2>
         <Button
-          className="bg-primary hover:bg-primary/80 text-white"
+          className="bg-primary hover:bg-primary/80 text-white rounded-xl shadow-md"
           onClick={() => setIsAddDeductionModalOpen(true)}
         >
-          {/* <Plus className="w-4 h-4" /> */}
           Add Deduction
         </Button>
       </div>
+
+      {/* Categories */}
       {data?.map((category) => (
-        <div key={category.id} className="border rounded-xl p-4 bg-white">
-          <h2 className="text-xl font-semibold mb-2">{category.type}</h2>
+        <div
+          key={category.id}
+          className="border rounded-2xl p-4 md:p-6 bg-white shadow-sm hover:shadow-md transition"
+        >
+          <h3 className="text-lg md:text-xl font-semibold mb-1">{category.type}</h3>
           <p className="text-sm text-gray-600 mb-4">{category.description}</p>
 
-          <div className="overflow-hidden rounded-xl border">
-            <Table>
+          {/* Responsive Table Wrapper */}
+          <div className="overflow-x-auto rounded-xl border">
+            <Table className="hidden md:table">
               <TableHeader>
-                <TableRow className="bg-muted">
-                  <TableHead className="px-6 py-4">Name</TableHead>
-                  {/* For Tax: rename Type -> Minimum Salary */}
-                  <TableHead className="px-6 py-4">
-                    {category.type?.toLowerCase().trim() === "tax"
-                      ? "Minimum Salary"
-                      : "Type"}
+                <TableRow className="bg-muted/50">
+                  <TableHead className="px-6 py-3">Name</TableHead>
+                  <TableHead className="px-6 py-3">
+                    {category.type?.toLowerCase().trim() === "tax" ? "Minimum Salary" : "Type"}
                   </TableHead>
-
-                  {/* For Tax: add Maximum Salary column */}
                   {category.type?.toLowerCase().trim() === "tax" && (
-                    <TableHead className="px-6 py-4">Maximum Salary</TableHead>
+                    <TableHead className="px-6 py-3">Maximum Salary</TableHead>
                   )}
-
-                  <TableHead className="px-6 py-4">Rate</TableHead>
-
+                  <TableHead className="px-6 py-3">Rate</TableHead>
                   {category.type?.toLowerCase().trim() !== "pension" && (
-                    <TableHead className="px-6 py-4">Amount</TableHead>
+                    <TableHead className="px-6 py-3">Amount</TableHead>
                   )}
-
-                  <TableHead className="px-6 py-4">Status</TableHead>
-                  <TableHead className="px-6 py-4 text-right">
-                    Actions
-                  </TableHead>
+                  <TableHead className="px-6 py-3">Status</TableHead>
+                  <TableHead className="px-6 py-3 text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
 
               <TableBody>
                 {category.data.length > 0 ? (
                   category.data.map((deduction: any) => (
-                    <TableRow key={deduction.id} className="border-t">
-                      <TableCell className="px-6 py-4 font-medium flex items-center gap-2">
+                    <TableRow key={deduction.id} className="hover:bg-muted/30">
+                      <TableCell className="px-6 py-3 font-medium flex items-center gap-2">
                         {deduction.name || category.type}
                         {category.type === "Other" && deduction.description && (
                           <Popover>
@@ -150,66 +122,54 @@ export function DeductionTable() {
                                 <Info className="h-4 w-4 text-muted-foreground" />
                               </Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-64">
-                              <p className="text-sm text-muted-foreground">
-                                {deduction.description}
-                              </p>
+                            <PopoverContent className="w-64 text-sm">
+                              {deduction.description}
                             </PopoverContent>
                           </Popover>
                         )}
                       </TableCell>
-
-                      {/* Minimum Salary / Type */}
-                      <TableCell className="px-6 py-4 text-muted-foreground">
+                      <TableCell className="px-6 py-3 text-muted-foreground">
                         {category.type?.toLowerCase().trim() === "tax"
                           ? deduction.min_salary
                           : deduction.type || category.type}
                       </TableCell>
-
-                      {/* Maximum Salary for Tax */}
                       {category.type?.toLowerCase().trim() === "tax" && (
-                        <TableCell className="px-6 py-4 text-muted-foreground">
+                        <TableCell className="px-6 py-3 text-muted-foreground">
                           {deduction.max_salary ?? "-"}
                         </TableCell>
                       )}
-
-                      <TableCell className="px-6 py-4 text-muted-foreground">
+                      <TableCell className="px-6 py-3 text-muted-foreground">
                         {deduction.rate ?? deduction.percentage ?? "-"}
                       </TableCell>
-
                       {category.type?.toLowerCase().trim() !== "pension" && (
-                        <TableCell className="px-4 py-2 text-muted-foreground">
+                        <TableCell className="px-6 py-3 text-muted-foreground">
                           {deduction.deduction ?? deduction.amount ?? "-"}
                         </TableCell>
                       )}
-
-                      <TableCell className="px-6 py-4">
-                        <div
+                      <TableCell className="px-6 py-3">
+                        <span
                           className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium ${
                             deduction.is_active ?? category.is_active
-                              ? "bg-green-100 text-green-800"
-                              : "bg-gray-100 text-gray-800"
+                              ? "bg-green-100 text-green-700"
+                              : "bg-gray-100 text-gray-600"
                           }`}
                         >
-                          <div
+                          <span
                             className={`w-2 h-2 rounded-full ${
                               deduction.is_active ?? category.is_active
                                 ? "bg-green-500"
-                                : "bg-gray-500"
+                                : "bg-gray-400"
                             }`}
                           />
-                          {deduction.is_active ?? category.is_active
-                            ? "Active"
-                            : "Inactive"}
-                        </div>
+                          {deduction.is_active ?? category.is_active ? "Active" : "Inactive"}
+                        </span>
                       </TableCell>
-
-                      <TableCell className="px-6 py-4 text-right">
-                        <div className="flex items-center justify-end gap-3">
+                      <TableCell className="px-6 py-3 text-right">
+                        <div className="flex items-center justify-end gap-2">
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8 rounded-md bg-muted hover:bg-muted/80"
+                            className="h-8 w-8 rounded-md hover:bg-muted"
                             onClick={() => handleEditDeduction(deduction, category.type)}
                           >
                             <Edit className="h-4 w-4 text-muted-foreground" />
@@ -217,7 +177,7 @@ export function DeductionTable() {
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8 rounded-md bg-muted hover:bg-muted/80"
+                            className="h-8 w-8 rounded-md hover:bg-muted"
                             onClick={() => handleDeleteDeduction(deduction, category.type)}
                           >
                             <Trash2 className="h-4 w-4 text-destructive" />
@@ -228,27 +188,83 @@ export function DeductionTable() {
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell
-                      colSpan={
-                        category.type?.toLowerCase().trim() === "tax" ? 7 : 6
-                      }
-                      className="text-center h-24 text-muted-foreground"
-                    >
+                    <TableCell colSpan={7} className="text-center py-6 text-muted-foreground">
                       No deductions found.
                     </TableCell>
                   </TableRow>
                 )}
               </TableBody>
             </Table>
+
+            {/* Mobile Card View */}
+            <div className="grid gap-4 md:hidden">
+              {category.data.length > 0 ? (
+                category.data.map((deduction: any) => (
+                  <div
+                    key={deduction.id}
+                    className="p-4 border rounded-xl shadow-sm bg-gray-50 flex flex-col gap-2"
+                  >
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-semibold">{deduction.name || category.type}</h4>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8"
+                          onClick={() => handleEditDeduction(deduction, category.type)}
+                        >
+                          <Edit className="h-4 w-4 text-muted-foreground" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8"
+                          onClick={() => handleDeleteDeduction(deduction, category.type)}
+                        >
+                          <Trash2 className="h-4 w-4 text-destructive" />
+                        </Button>
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-600">
+                      {category.type?.toLowerCase().trim() === "tax"
+                        ? `Salary: ${deduction.min_salary} - ${deduction.max_salary ?? "-"}`
+                        : deduction.type || category.type}
+                    </p>
+                    <p className="text-sm text-gray-600">Rate: {deduction.rate ?? deduction.percentage ?? "-"}</p>
+                    {category.type?.toLowerCase().trim() !== "pension" && (
+                      <p className="text-sm text-gray-600">
+                        Amount: {deduction.deduction ?? deduction.amount ?? "-"}
+                      </p>
+                    )}
+                    <span
+                      className={`mt-2 inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium self-start ${
+                        deduction.is_active ?? category.is_active
+                          ? "bg-green-100 text-green-700"
+                          : "bg-gray-100 text-gray-600"
+                      }`}
+                    >
+                      <span
+                        className={`w-2 h-2 rounded-full ${
+                          deduction.is_active ?? category.is_active
+                            ? "bg-green-500"
+                            : "bg-gray-400"
+                        }`}
+                      />
+                      {deduction.is_active ?? category.is_active ? "Active" : "Inactive"}
+                    </span>
+                  </div>
+                ))
+              ) : (
+                <p className="text-center text-muted-foreground py-6">No deductions found.</p>
+              )}
+            </div>
           </div>
         </div>
       ))}
 
-      <Dialog
-        open={isAddDeductionModalOpen}
-        onOpenChange={setIsAddDeductionModalOpen}
-      >
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      {/* Modals */}
+      <Dialog open={isAddDeductionModalOpen} onOpenChange={setIsAddDeductionModalOpen}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl">
           <DialogHeader>
             <DialogTitle>Add New Deduction</DialogTitle>
           </DialogHeader>
@@ -256,9 +272,8 @@ export function DeductionTable() {
         </DialogContent>
       </Dialog>
 
-      {/* Edit Deduction Modal */}
       <Dialog open={showEditModal} onOpenChange={setShowEditModal}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl">
           <DialogHeader>
             <DialogTitle>Edit Deduction</DialogTitle>
           </DialogHeader>
@@ -266,7 +281,10 @@ export function DeductionTable() {
             <EditDeductionForm
               onOpenChange={setShowEditModal}
               deductionData={selectedDeduction}
-              onUpdate={handleUpdateDeduction}
+              onUpdate={(d) => {
+                setSelectedDeduction(d);
+                setShowEditModal(false);
+              }}
             />
           )}
         </DialogContent>

@@ -96,7 +96,7 @@ export function EditAllowanceModal({
 
   return (
     <Dialog open={open} onOpenChange={isLoading ? undefined : onOpenChange}>
-      <DialogContent className="w-full max-w-md mx-auto rounded-xl p-6 sm:p-8 shadow-lg bg-white dark:bg-gray-900 transition-all">
+      <DialogContent className="sm:max-w-[480px] max-h-[90vh] overflow-y-auto mx-auto rounded-xl p-6 sm:p-8 shadow-lg bg-white dark:bg-gray-900 transition-all">
         <DialogHeader className="text-center sm:text-left">
           <DialogTitle className="text-xl sm:text-2xl font-semibold">
             Edit Allowance
