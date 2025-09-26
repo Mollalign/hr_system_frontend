@@ -8,6 +8,7 @@ import {
   Settings,
   Users,
   X,
+  DollarSign,
 } from "lucide-react";
 
 interface MenuItem {
@@ -44,6 +45,11 @@ const Sidebar: React.FC<SidebarProps> = ({ onMobileClose }) => {
       name: "Company Address",
       path: "/company-address",
       icon: <MapPin className="w-5 h-5" />,
+    },
+    {
+      name: "Salary Structure",
+      path: "/salary-structure",
+      icon: <DollarSign className="w-5 h-5" />,
     },
     {
       name: "Setting",

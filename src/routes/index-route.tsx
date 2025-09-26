@@ -7,6 +7,7 @@ const Dashboard = lazy(() => import("../pages/Dashboard"));
 const DepartmentPage = lazy(() => import("../pages/department/Department"));
 const EmployeePage = lazy(() => import("../pages/employee/Employee"));
 const CompanyAddressPage = lazy(() => import("../pages/companyAddress/CompanyAddress"));
+const SalaryStructureList = lazy(() => import("../pages/salary-structure/salary-structure-list"))
 const SettingPage = lazy(() => import("../pages/setting/Setting"));
 
 
@@ -18,6 +19,7 @@ export const dashboardRoutes = (
       <Route path="department" element={<DepartmentPage />}/>
       <Route path="employee" element={<EmployeePage />}/>
       <Route path="company-address" element={<CompanyAddressPage />}/>
+      <Route path="salary-structure" element={<SalaryStructureList />} />
       <Route path="setting" element={<SettingPage />}/>
     </Route>
   </>

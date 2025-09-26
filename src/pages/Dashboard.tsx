@@ -1,7 +1,8 @@
+import { HRDashboard } from "./dashboard/dashboard"
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <HRDashboard />
   )
 }
 
