@@ -1,7 +1,7 @@
 // components/TableSkeleton.tsx
 "use client";
 import React from "react";
-// If you have a Skeleton component (shadcn/ui), use it.
+// If you have a Skeleton component , use it.
 // Otherwise the component falls back to simple div placeholders.
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -80,7 +80,7 @@ export default function TableSkeleton({
 
               {/* remaining columns: simple lines */}
               <div className="hidden md:flex items-center gap-4 flex-1">
-                {colWidths.slice(1).map((w, i) => (
+                {colWidths.slice(1).map((i) => (
                   <div key={i} className="flex-1 min-w-0 px-2">
                     <PlaceholderCell width="w-full" height={rowHeight} shimmer={shimmer} />
                   </div>

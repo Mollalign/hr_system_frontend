@@ -2,7 +2,7 @@
 
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Users, Plus, Building, MapPinHouse, Activity } from "lucide-react"
+import { Users, Building, MapPinHouse, Activity } from "lucide-react"
 import { AttendanceChart } from "./components/attendance-chart"
 import { PayrollChart } from "./components/payroll-chart"
 import { DepartmentOverview } from "./components/department-overview"

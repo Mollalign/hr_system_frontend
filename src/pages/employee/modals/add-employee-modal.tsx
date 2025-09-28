@@ -21,7 +21,7 @@ export function CreateEmployeeModal({
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  const [formData, setFormData] = useState<CreateEmployeeRequest & { cv_file: File | null }>({
+  const [formData, setFormData] = useState<CreateEmployeeRequest & { cv_file: string | null }>({
     full_name: "",
     email: "",
     phone_number: "",
@@ -154,7 +154,7 @@ export function CreateEmployeeModal({
               <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
               <p className="text-sm text-muted-foreground">
                 {formData.cv_file
-                  ? formData.cv_file.name
+                  ? formData.cv_file
                   : "Click or drag file to upload CV"}
               </p>
             </div>
@@ -164,7 +164,7 @@ export function CreateEmployeeModal({
               className="hidden"
               accept=".pdf,.doc,.docx"
               onChange={(e) => {
-                const file = e.target.files?.[0] || null;
+                const file = e.target.value?.[0] || null;
                 setFormData({ ...formData, cv_file: file });
               }}
             />

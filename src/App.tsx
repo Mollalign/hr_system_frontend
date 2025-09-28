@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate,
+  // Navigate,
 } from "react-router-dom";
 import { Toaster } from "sonner";
 import { dashboardRoutes } from "./routes/index-route";

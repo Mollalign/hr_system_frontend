@@ -76,6 +76,7 @@ export interface Employee {
   deduction: Deduction[];
   effective_date: string;
   currency_of_salary: string;
+  cv_file: string 
   is_active: boolean;
 }
 
@@ -155,7 +156,7 @@ export interface UpdateEmployeeRequest {
   deduction: string[];       // array of deduction ids
   effective_date: string;
   currency_of_salary: string;
-  cv_file: File | null;
+  cv_file: string | null;
   cv_file_url?: string; 
   is_active: boolean;
 }
