@@ -9,6 +9,8 @@ import {
   Users,
   X,
   DollarSign,
+  CreditCard,
+  CalendarCheck
 } from "lucide-react";
 
 interface MenuItem {
@@ -50,6 +52,16 @@ const Sidebar: React.FC<SidebarProps> = ({ onMobileClose }) => {
       name: "Salary Structure",
       path: "/salary-structure",
       icon: <DollarSign className="w-5 h-5" />,
+    },
+    {
+      name: "Attendance",
+      path: "/attendance",
+      icon: <CalendarCheck className="w-5 h-5" />,
+    },
+    {
+      name: "Payroll",
+      path: "/payroll",
+      icon: <CreditCard className="w-5 h-5" />,
     },
     {
       name: "Setting",

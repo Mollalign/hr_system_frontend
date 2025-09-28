@@ -8,7 +8,9 @@ const DepartmentPage = lazy(() => import("../pages/department/Department"));
 const EmployeePage = lazy(() => import("../pages/employee/employee-list"));
 const EmployeeDetail = lazy(() => import("../pages/employee/employee-detail"))
 const CompanyAddressPage = lazy(() => import("../pages/companyAddress/CompanyAddress"));
-const SalaryStructureList = lazy(() => import("../pages/salary-structure/salary-structure-list"))
+const SalaryStructureList = lazy(() => import("../pages/salary-structure/salary-structure-list"));
+const AttendanceList = lazy(() => import("../pages/attendance/attendace-list"))
+const PayrollList = lazy(() => import("../pages/payroll/payroll-list").then(module => ({ default: module.PayrollList })));
 const SettingPage = lazy(() => import("../pages/setting/Setting"));
 
 
@@ -22,6 +24,8 @@ export const dashboardRoutes = (
       <Route path="employee/:id" element={<EmployeeDetail />}/>
       <Route path="company-address" element={<CompanyAddressPage />}/>
       <Route path="salary-structure" element={<SalaryStructureList />} />
+      <Route path="attendance" element={<AttendanceList />} />
+      <Route path="payroll" element={<PayrollList />} />
       <Route path="setting" element={<SettingPage />}/>
     </Route>
   </>
