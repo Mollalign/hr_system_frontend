@@ -1,103 +1,130 @@
-"use client"
+"use client";
 
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Users, Building, MapPinHouse, Activity } from "lucide-react"
-import { AttendanceChart } from "./components/attendance-chart"
-import { PayrollChart } from "./components/payroll-chart"
-import { DepartmentOverview } from "./components/department-overview"
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Users, Building, MapPinHouse, Activity } from "lucide-react";
+import { AttendanceChart } from "./components/attendance-chart";
+import { PayrollChart } from "./components/payroll-chart";
+import { DepartmentOverview } from "./components/department-overview";
 
 export function HRDashboard() {
   return (
-    <div className="flex min-h-screen bg-background rounded-lg">
-      <main className="flex-1 p-8 lg:p-8">
-        <div className="max-w-9xl mx-auto space-y-6">
+    <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      <main className="flex-1 p-4 sm:p-6 lg:p-8">
+        <div className="max-w-7xl mx-auto space-y-8">
           {/* Header */}
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
-              <h1 className="text-3xl font-bold text-foreground">HR Dashboard</h1>
-              <p className="text-muted-foreground mt-1">Manage your workforce efficiently</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+                HR Dashboard
+              </h1>
+              <p className="text-gray-500 mt-1">
+                Manage your workforce efficiently
+              </p>
             </div>
           </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                <Card className="sm:max-h-[140px]">
-                    <CardHeader className=" flex flex-row items-center justify-between">
-                        <CardTitle className="text-sm font-medium">Total Employees</CardTitle>
-                        <Users className="w-4 h-4 text-muted-foreground cursor-pointer hover:text-primary transition-colors" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold text-primary">1,200</div>
-                        {/* <p className="text-xs text-muted-foreground">+2.1% from yesterday</p> */}
-                        <div className="flex items-center gap-2 mt-1">
-                            <Badge variant="secondary" className="text-xs px-2 py-1 bg-green-800">
-                                {/* <Plus className="w-4 h-4 text-white" /> */}
-                                500
-                            </Badge>
-                            <p className="text-xs text-muted-foreground">Active employees</p>
-                        </div>
-                    </CardContent>
-                </Card>
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Employees */}
+            <Card className="rounded-2xl shadow-sm hover:shadow-md transition-all">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="text-sm font-medium text-gray-600">
+                  Total Employees
+                </CardTitle>
+                <Users className="w-5 h-5 text-gray-400" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-blue-600">1,200</div>
+                <div className="flex items-center gap-2 mt-2">
+                  <Badge
+                    variant="secondary"
+                    className="text-xs px-2 py-1 rounded-lg bg-green-100 text-green-700"
+                  >
+                    500
+                  </Badge>
+                  <p className="text-xs text-gray-500">Active employees</p>
+                </div>
+              </CardContent>
+            </Card>
 
-                <Card className="sm:max-h-[140px]">
-                    <CardHeader className=" flex flex-row items-center justify-between">
-                    <CardTitle className="text-sm font-medium">Departments</CardTitle>
-                    <Building className="w-4 h-4 text-muted-foreground cursor-pointer hover:text-primary transition-colors" />
-                    </CardHeader>
-                    <CardContent>
-                    <div className="text-2xl font-bold text-primary">12</div>
-                    <div className="flex items-center gap-2 mt-1">
-                        <Badge variant="secondary" className="text-xs px-2 py-1 bg-green-800">
-                            {/* <Plus className="w-4 h-4 text-white" /> */}
-                            12
-                        </Badge>
-                        <p className="text-xs text-muted-foreground">Active departments</p>
-                    </div>
-                    </CardContent>
-                </Card>
+            {/* Departments */}
+            <Card className="rounded-2xl shadow-sm hover:shadow-md transition-all">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="text-sm font-medium text-gray-600">
+                  Departments
+                </CardTitle>
+                <Building className="w-5 h-5 text-gray-400" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-blue-600">12</div>
+                <div className="flex items-center gap-2 mt-2">
+                  <Badge
+                    variant="secondary"
+                    className="text-xs px-2 py-1 rounded-lg bg-green-100 text-green-700"
+                  >
+                    12
+                  </Badge>
+                  <p className="text-xs text-gray-500">Active departments</p>
+                </div>
+              </CardContent>
+            </Card>
 
-                <Card className="sm:max-h-[140px]">
-                    <CardHeader className=" flex flex-row items-center justify-between">
-                    <CardTitle className="text-sm font-medium">Company Branches</CardTitle>
-                    <MapPinHouse className="w-4 h-4 text-muted-foreground cursor-pointer hover:text-primary transition-colors" />
-                    </CardHeader>
-                    <CardContent>
-                    <div className="text-2xl font-bold text-primary">8</div>
-                    <div className="flex items-center gap-2 mt-1">
-                        <Badge variant="secondary" className="text-xs px-2 py-1 bg-green-800">
-                            {/* <Plus className="w-4 h-4 text-white" /> */}
-                            8
-                        </Badge>
-                        <p className="text-xs text-muted-foreground">Active branches</p>
-                    </div>
-                    </CardContent>
-                </Card>
-                <Card className="sm:max-h-[140px]">
-                    <CardHeader className=" flex flex-row items-center justify-between">
-                    <CardTitle className="text-sm font-medium">Attendance Rate</CardTitle>
-                    <Activity className="w-4 h-4 text-muted-foreground cursor-pointer hover:text-primary transition-colors" />
-                    </CardHeader>
-                    <CardContent>
-                    <div className="text-2xl font-bold text-primary">98.5%</div>
-                    {/* <p className="text-xs text-muted-foreground">+2.1% from yesterday</p> */}
-                    <div className="flex items-center gap-2 mt-1">
-                        <Badge variant="secondary" className="text-xs px-2 py-1 bg-green-800">
-                            {/* <Plus className="w-4 h-4 text-white" /> */}
-                            98.5%
-                        </Badge>
-                        <p className="text-xs text-muted-foreground">this month</p>
-                    </div>
-                    </CardContent>
-                </Card>
-            </div>
-            <div className="grid sm:grid-cols-2 grid-cols-1 gap-6">
-                <AttendanceChart />
-                <PayrollChart />
-            </div>
-            <DepartmentOverview />
+            {/* Branches */}
+            <Card className="rounded-2xl shadow-sm hover:shadow-md transition-all">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="text-sm font-medium text-gray-600">
+                  Company Branches
+                </CardTitle>
+                <MapPinHouse className="w-5 h-5 text-gray-400" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-blue-600">8</div>
+                <div className="flex items-center gap-2 mt-2">
+                  <Badge
+                    variant="secondary"
+                    className="text-xs px-2 py-1 rounded-lg bg-green-100 text-green-700"
+                  >
+                    8
+                  </Badge>
+                  <p className="text-xs text-gray-500">Active branches</p>
+                </div>
+              </CardContent>
+            </Card>
 
+            {/* Attendance */}
+            <Card className="rounded-2xl shadow-sm hover:shadow-md transition-all">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="text-sm font-medium text-gray-600">
+                  Attendance Rate
+                </CardTitle>
+                <Activity className="w-5 h-5 text-gray-400" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-blue-600">98.5%</div>
+                <div className="flex items-center gap-2 mt-2">
+                  <Badge
+                    variant="secondary"
+                    className="text-xs px-2 py-1 rounded-lg bg-green-100 text-green-700"
+                  >
+                    98.5%
+                  </Badge>
+                  <p className="text-xs text-gray-500">This month</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Charts */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <AttendanceChart />
+            <PayrollChart />
+          </div>
+
+          {/* Department Overview */}
+          <DepartmentOverview />
         </div>
       </main>
     </div>
-  )
+  );
 }
